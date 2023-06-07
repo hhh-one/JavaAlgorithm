@@ -26,7 +26,7 @@ public class Q18016 {
 
         for (int i = 0; i < m; i++) {
             if (map.containsKey(find[i])) {
-                sb.append(map.get(find[i]) + " ");
+                sb.append(map.get(find[i])).append(" ");
                 continue;
             }
             sb.append("0 ");
