@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+//다익스트라 공부하고 오기 - 다음에 풀어보기
 //bfs - 방향그래프 + 가중치
 public class Q1753 {
     //인접 행렬
