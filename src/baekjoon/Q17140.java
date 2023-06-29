@@ -21,7 +21,7 @@ public class Q17140 {
         //처음 배열 초기화
         n = 3;
         m = 3;
-        arr = new int[m][n];
+        arr = new int[n][m];
         for (int i = 0; i < 3; i++) {
             String[] col = br.readLine().split(" ");
             for (int j = 0; j < 3; j++) {
@@ -47,7 +47,6 @@ public class Q17140 {
                 c();
             }
         }
-
     }
 
     //모든 행에 대해서 정렬
@@ -65,12 +64,31 @@ public class Q17140 {
         }
         m = max;
 
-        newArr(n, m, sortLists);
+        newArr(true, sortLists);
     }
 
     //모든 열에 대해서 정렬
     public static void c() {
+        int max = 0;
         count++;
+        List<List<Integer>> sortLists = new ArrayList<>();
+
+        for (int i = 0; i < m; i++) {
+            List<Integer> rowArr = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                if (arr[j][i] == 0) {
+                    continue;
+                }
+                rowArr.add(arr[j][i]);
+            }
+            List<Integer> list = arrSort(rowArr.stream().mapToInt(a -> a).toArray());
+            sortLists.add(list);
+
+            max = Math.max(list.size(), max);
+        }
+        n = max;
+
+        newArr(false, sortLists);
     }
 
     //정렬
@@ -80,6 +98,9 @@ public class Q17140 {
 
         //map 초기화
         for (int a : arr) {
+            if (a == 0) {
+                continue;
+            }
             map.put(a, map.getOrDefault(a, 0) + 1);
         }
 
@@ -95,7 +116,7 @@ public class Q17140 {
 
         List<Integer> sortArr = new ArrayList<>();
 
-        for (int key : map.keySet()) {
+        for (int key : keySet) {
             sortArr.add(key);
             sortArr.add(map.get(key));
         }
@@ -103,15 +124,17 @@ public class Q17140 {
         return sortArr;
     }
 
-    public static void newArr(int x, int y, List<List<Integer>> list) {
+    public static void newArr(boolean isCol, List<List<Integer>> list) {
         arr = new int[n][m];
 
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < list.get(i).size(); j++) {
-                arr[i][j] = list.get(i).get(j);
-                System.out.print(arr[i][j] + " ");
+                if (isCol) {
+                    arr[i][j] = list.get(i).get(j);
+                    continue;
+                }
+                arr[j][i] = list.get(i).get(j);
             }
-            System.out.println();
         }
     }
 }
