@@ -52,29 +52,20 @@ public class Q17140 {
 
     //모든 행에 대해서 정렬
     public static void r() {
+        int max = 0; //늘어난 열 중 크기가 제일 큰 열
         count++;
+        List<List<Integer>> sortLists = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             int[] colArr = arr[i];
-            //수: 수의 등장횟수
-            Map<Integer, Integer> map = new HashMap<>();
 
-            //map 초기화
-            for (int c : colArr) {
-                map.put(c, map.getOrDefault(c, 0) + 1);
-            }
+            List<Integer> list = arrSort(colArr);
+            sortLists.add(list);
 
-            List<Integer> keySet = new ArrayList<>(map.keySet());
-
-            //map value값 정렬
-            keySet.sort(new Comparator<Integer>() {
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return map.get(o1).compareTo(map.get(o2));
-                }
-            });
-
-            List<Integer> sortArr = new ArrayList<>();
+            max = Math.max(list.size(), max);
         }
+        m = max;
+
+        newArr(n, m, sortLists);
     }
 
     //모든 열에 대해서 정렬
@@ -83,9 +74,44 @@ public class Q17140 {
     }
 
     //정렬
-    public static List<List<Integer>> arrSort() {
-        List<List<Integer>> list = new ArrayList<>();
+    public static List<Integer> arrSort(int[] arr) {
 
-        return list;
+        Map<Integer, Integer> map = new HashMap<>();
+
+        //map 초기화
+        for (int a : arr) {
+            map.put(a, map.getOrDefault(a, 0) + 1);
+        }
+
+        List<Integer> keySet = new ArrayList<>(map.keySet());
+
+        //map value값 정렬
+        keySet.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return map.get(o1).compareTo(map.get(o2));
+            }
+        });
+
+        List<Integer> sortArr = new ArrayList<>();
+
+        for (int key : map.keySet()) {
+            sortArr.add(key);
+            sortArr.add(map.get(key));
+        }
+
+        return sortArr;
+    }
+
+    public static void newArr(int x, int y, List<List<Integer>> list) {
+        arr = new int[n][m];
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
+                arr[i][j] = list.get(i).get(j);
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
