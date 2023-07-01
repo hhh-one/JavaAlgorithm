@@ -22,16 +22,17 @@ public class Q17140 {
         n = 3;
         m = 3;
         arr = new int[n][m];
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < n; i++) {
             String[] col = br.readLine().split(" ");
-            for (int j = 0; j < 3; j++) {
+
+            for (int j = 0; j < m; j++) {
                 arr[i][j] = Integer.parseInt(col[j]);
             }
         }
 
         while (true) {
             //인덱스가 넘어가는 경우도 생각
-            if (r < m && c < n && arr[r][c] == k) {
+            if (r < n && c < m && arr[r][c] == k) {
                 System.out.println(count);
                 break;
             }
@@ -47,6 +48,7 @@ public class Q17140 {
                 c();
             }
         }
+
     }
 
     //모든 행에 대해서 정렬
@@ -54,6 +56,7 @@ public class Q17140 {
         int max = 0; //늘어난 열 중 크기가 제일 큰 열
         count++;
         List<List<Integer>> sortLists = new ArrayList<>();
+
         for (int i = 0; i < n; i++) {
             int[] colArr = arr[i];
 
@@ -62,7 +65,7 @@ public class Q17140 {
 
             max = Math.max(list.size(), max);
         }
-        m = max;
+        m = max > 100 ? 100 : max;
 
         newArr(true, sortLists);
     }
@@ -76,17 +79,15 @@ public class Q17140 {
         for (int i = 0; i < m; i++) {
             List<Integer> rowArr = new ArrayList<>();
             for (int j = 0; j < n; j++) {
-                if (arr[j][i] == 0) {
-                    continue;
-                }
                 rowArr.add(arr[j][i]);
             }
+
             List<Integer> list = arrSort(rowArr.stream().mapToInt(a -> a).toArray());
             sortLists.add(list);
 
             max = Math.max(list.size(), max);
         }
-        n = max;
+        n = max > 100 ? 100 : max;
 
         newArr(false, sortLists);
     }
@@ -110,6 +111,9 @@ public class Q17140 {
         keySet.sort(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
+                if (map.get(o1).equals(map.get(o2))) {
+                    return o1.compareTo(o2);
+                }
                 return map.get(o1).compareTo(map.get(o2));
             }
         });
@@ -128,7 +132,14 @@ public class Q17140 {
         arr = new int[n][m];
 
         for (int i = 0; i < list.size(); i++) {
+            if (i >= 100) {
+                break;
+            }
+
             for (int j = 0; j < list.get(i).size(); j++) {
+                if (j >= 100) {
+                    break;
+                }
                 if (isCol) {
                     arr[i][j] = list.get(i).get(j);
                     continue;
