@@ -46,7 +46,7 @@ public class Q2606 {
                 if (map[current][i] == 0) {
                     continue;
                 }
-                if (visited[i] == true) {
+                if (visited[i]) {
                     continue;
                 }
                 q.offerLast(i);
