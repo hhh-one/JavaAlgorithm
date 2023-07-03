@@ -25,18 +25,19 @@ public class Q1012 {
             int k = Integer.parseInt(mnk[2]);   //배추가 심어진 위치의 개수
 
             map = new int[n][m];
+            visited = new boolean[n][m];
 
             //배추 위치 표시하기
             for (int i = 0; i < k; i++) {
                 String[] location = br.readLine().split(" ");
-                int x = Integer.parseInt(location[0]);
-                int y = Integer.parseInt(location[1]);
-                map[y][x] = 1;
+                int c = Integer.parseInt(location[0]);
+                int r = Integer.parseInt(location[1]);
+                map[r][c] = 1;
             }
 
             //너비우선탐색
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
                     if (map[i][j] == 1 && !visited[i][j]) {
                         bfs(new int[]{i, j});
                         count++;
@@ -50,7 +51,6 @@ public class Q1012 {
 
     public static void bfs(int[] start) {
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        visited = new boolean[n][m];
         Deque<int[]> q = new ArrayDeque<>();
 
         q.offerLast(start);
@@ -63,7 +63,7 @@ public class Q1012 {
                 int nextRow = current[0] + direction[0];
                 int nextCol = current[1] + direction[1];
 
-                if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n) {
+                if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= m) {
                     continue;
                 }
                 if (visited[nextRow][nextCol]) {
