@@ -29,11 +29,33 @@ public class Q1388 {
             }
         }
 
+        int answer = 0;
 
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (!visited[i][j]) {
+                    dfs(new int[] {i, j}, map[i][j]);
+                    answer++;
+                }
+            }
+        }
+
+        System.out.println(answer);
     }
 
-    public static void dfs(int[] start) {
-        int[][] directions = {{-1, 0}, {1, 0}};
+    public static void dfs(int[] start, String shape) {
+        visited[start[0]][start[1]] = true;
 
+        int[] direction = shape.equals("-") ? new int[]{0, 1} : new int[]{1, 0};
+        int nextRow = direction[0] + start[0];
+        int nextCol = direction[1] + start[1];
+
+        if (nextRow >= r || nextCol >= c) {
+            return;
+        }
+
+        if (map[nextRow][nextCol].equals(map[start[0]][start[1]])) {
+            dfs(new int[] {nextRow, nextCol}, map[nextRow][nextCol]);
+        }
     }
 }
