@@ -39,7 +39,7 @@ public class Q2583 {
         for (int row = 0; row < r; row++) {
             for (int col = 0; col < c; col++) {
                 if (!visited[row][col]) {
-                    int s = bfs(new int[] {row, col, 0});
+                    int s = bfs(new int[] {row, col});
                     num++;
                     answer.add(s);
                 }
@@ -49,13 +49,15 @@ public class Q2583 {
         answer.sort(Comparator.naturalOrder());
 
         System.out.println(num);
-        System.out.println(answer.toString());
+        for (int a : answer) {
+            System.out.print(a + " ");
+        }
     }
 
     public static int bfs(int[] start) {
         int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         Deque<int[]> q = new ArrayDeque<>();
-        int s = 0;
+        int s = 1;
 
         q.offerLast(start);
         visited[start[0]][start[1]] = true;
@@ -73,9 +75,9 @@ public class Q2583 {
                     continue;
                 }
 
-                q.offerLast(new int[] {nextRow, nextCol, current[2] + 1});
+                q.offerLast(new int[] {nextRow, nextCol});
                 visited[nextRow][nextCol] = true;
-                s = current[2] + 1;
+                s++;
             }
         }
 
