@@ -1,46 +1,70 @@
-package baekjoon;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class Q4963 {
     private static int[][] map;
     private static boolean[][] visited;
+    private static int w;
+    private static int h;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str;
-        while(true) {
-            if ((str = br.readLine()).equals("0 0")) {
+        StringBuilder sb = new StringBuilder();
+
+        while (true) {
+            int answer = 0;
+            String[] wh = br.readLine().split(" ");
+            if (wh[0].equals("0") && wh[1].equals("0")) {
                 break;
             }
-            String[] wh = str.split(" ");
-            int w = Integer.parseInt(wh[0]);
-            int h = Integer.parseInt(wh[1]);
 
-            map = new int[w][h];
+            w = Integer.parseInt(wh[0]);
+            h = Integer.parseInt(wh[1]);
 
-            for (int i = 0; i < h; i++) {
-                String[] s = br.readLine().split(" ");
+            map = new int[h][w];
+            visited = new boolean[h][w];
+
+            for (int i = 0 ; i < h; i++) {
+                String[] str = br.readLine().split(" ");
                 for (int j = 0; j < w; j++) {
-                    map[i][j] = Integer.parseInt(s[j]);
+                    map[i][j] = Integer.parseInt(str[j]);
                 }
             }
+
+            for (int i = 0; i < h; i++) {
+                for (int j = 0; j < w; j++) {
+                    if (!visited[i][j] && map[i][j] == 1) {
+                        dfs(new int[] {i, j});
+                        answer++;
+                    }
+                }
+            }
+            sb.append(answer).append("\n");
         }
+
+        System.out.println(sb.toString());
     }
 
-    public static void bfs(int[] start) {
-        Deque<int[]> q = new ArrayDeque<>();
-        q.offerLast(start);
+    public static void dfs(int[] start) {
         visited[start[0]][start[1]] = true;
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
-        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
+        for (int[] direction : directions) {
+            int nextRow = direction[0] + start[0];
+            int nextCol = direction[1] + start[1];
 
-        while (!q.isEmpty()) {
-            q.pollFirst();
+            if (nextRow < 0 || nextCol < 0 || nextRow >= h || nextCol >= w) {
+                continue;
+            }
+            if (visited[nextRow][nextCol]) {
+                continue;
+            }
+            if (map[nextRow][nextCol] == 0) {
+                continue;
+            }
+
+            dfs(new int[] {nextRow, nextCol});
         }
     }
 }
