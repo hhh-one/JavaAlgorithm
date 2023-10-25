@@ -19,6 +19,7 @@ public class Q1931 {
             times[i][1] = Integer.parseInt(meeting[1]);
         }
 
+        //배열 정렬 : 종료시간 오름차순 -> 같으면 시작시간 오름차순
         Arrays.sort(times, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
